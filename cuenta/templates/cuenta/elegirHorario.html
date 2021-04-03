@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    {% extends 'cuenta/principal.html' %}
+    {% block content %}
+    {% load static %}
+
+    <head>
+        <title>
+            @gen-date / Elegir Horario
+        </title>
+    </head>
+  
+    <body>
+<!-- Bloque de encabezado con Nombre y descripción de Empresa -->
+        <div class="jumbotron" style="padding: 2rem 1rem; margin-bottom: 0rem;">
+            <h1 class="display-6">{{ empresa }}</h1>
+            <p class="lead">{{ empresa.EmpDescripcion }}</p>
+        </div>
+
+<!-- Bloque con encabezado de agenda y datos de Empresa -->
+        <div class="row">
+            <div class="col-md-4" align="center">
+                <h4 class="display-5">
+                    Elige fecha y hora de tu cita
+                </h4>
+                <h6>Fecha : <input id='datePicker' type="date" onchange="handler(event);" required="required"></h6>
+            </div> 
+
+            <div class="col-md-4" align="center">
+                <h6>
+                    <b>Direccion:</b>
+                </h6>
+                <p> {{empresa.EmpDirCalle}} {{empresa.EmpDirNum }} Esq. {{empresa.EmpDirEsquina}}</p>
+            </div>
+            <div class="col-md-4" align="center">
+                <h6>
+                    <b>Contacto:</b>
+                </h6>
+                <span>Email: {{ empresa.EmpDirEmail }}</span>
+                <br>
+                <span>Teléfono: {{ empresa.EmpTelefono }}</span>
+            </div>
+        </div>
+
+<!-- Mensaje si la empresa está cerrada -->
+        {% for message in messages %}
+            <div class="{{ message.tags }}" role="alert"> {{message}} </div>
+        {% endfor %}
+
+<!-- Col 1 Cuadrí­cula de Horarios y Col 2 Imagen de Empresa + botón Volver -->
+        <div class="row">
+            <div class="col-md-4">
+                {% if messages|length == 0 %}
+                    {% for horario in listaHorarios %}
+                        {% if horario in listaHorariosVencidos %}
+                            <li class="list-group-item" style="text-align:center; font-weight:700;">{{horario}}
+                                hs.
+                                <a class="btn btn-secondary float-md-right" style=" color:white; padding:0.1rem 0.1rem">
+                                    * Vencido *
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="list-group-item" style="text-align:center; font-weight:700;">{{horario}}
+                                hs.
+                                {% if horario in solicitudes %}
+                                    <a class="btn btn-danger float-md-right" style=" color:white; padding:0.1rem 0.1rem">
+                                        Reservado
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'solicitud' empresa.EmpId fechaSel horario %}"  class="btn btn-primary float-md-right" style="padding:0.1rem 0.55rem">
+                                        Agendar
+                                    </a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+		        	{% endfor %}
+                {% else %}
+                    {% static "" as baseURL %}
+                    <img src="{{ baseURL }}images/logos/cartelcerrado.jpg " width=200 height=200 align="right">
+                {% endif %}
+            </div>
+            <div class="col-md-7">
+                <div align="center">
+                    {% static "" as baseURL %}
+                    <img src="{{ baseURL }}images/{{empresa.EmpId}}.jpg " width=600 height=480 >
+                    <hr>
+                    <a href="{% url 'home' %}" class="btn btn-secondary" >Volver</a>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            document.getElementById('datePicker').valueAsDate = new Date("{{ fechaSel }}");
+            function handler(e){
+                if(e.target.value != '')
+                    {
+                    var now = new Date();
+                    var day = ("0" + now.getDate()).slice(-2);
+                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+                    if(e.target.value >= today)
+                    {
+                        var url = "{% url 'horario' empresa.EmpId 123 %}".replace('123', e.target.value.toString());
+                        window.location.href = url;
+                    }
+                else
+                    {
+                    alert("La fecha ingresada debe ser mayor o igual al dia de hoy.");
+                    e.target.value = today;
+                    }
+                    }
+            }
+        </script>
+    </body>
+    {% endblock %}
+
+</html>

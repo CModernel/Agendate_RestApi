@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+ 
+<html>
+
+  <head>
+    <title>
+      @gen-date / Alta Solicitud
+    </title>
+  </head>
+  
+  <body>
+    {% extends 'cuenta/principal.html' %}
+    {% block content %}
+
+    <div class="card">
+      <h5 class="card-header">Alta Solicitud</h5>
+      <div class="card-body">
+        <h5 class="card-title">Desea agendar una cita con "{{ empresaSel }}" para el dia de la fecha: {{fecha}} y hora: {{hora}} ?</h5>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-2" align= "Center">
+              <a href="{% url 'horario' empresaSel.EmpId fecha %}" class="btn btn-secondary">Volver</a>
+            </div>
+            <div class="col-md-2" align= "Center">
+              <input type="submit" class="btn btn-success" name="btn_alta" value="Aceptar">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    {% endblock%}
+  </body>
+
+</html>

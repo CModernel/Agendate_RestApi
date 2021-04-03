@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	{%  extends 'cuenta/principal.html' %}
+	{% block content %}
+	{% load static %}
+
+	<head>
+		<title>
+			@gen-date / Elegir Servicio
+		</title>
+	</head>
+  
+	<body>
+		<br>
+		<h2>Elegir Servicio</h2>
+		<br>
+		{% now "Y-m-d" as today_str %}
+		{% load static %}
+
+		<div class="container-fluid mt-4">
+			<div class="row justify-content-center">
+				{% for servicio in servicios %}
+					{% static "" as baseURL %}
+					<div class="col-auto mb-3">
+						<div class="card"  style="width: 18rem;">
+							{% if servicio.EmpImagen != None %}
+								<img class="card-img-top" src="{{ baseURL }}images/{{servicio.EmpImagen}}" alt="Card image cap">
+							{% endif %}
+							<div class="card-body">
+								<h5 class="card-title">{{servicio}}</h5>
+								<p class="card-text">{{servicio.EmpDescripcion |truncatewords:10}}</p>
+								<a href="{% url 'horario' servicio.EmpId  today_str %}" class="btn btn-primary stretched-link">Ir a la agenda</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<a href="/" type="button" class="btn btn-success">Volver</a>
+		</div>
+	</body>
+	{% endblock %}
+</html>

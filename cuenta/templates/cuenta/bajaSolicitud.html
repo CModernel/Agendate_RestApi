@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <title>
+      @gen-date / Baja Solicitud
+    </title>
+  </head>
+
+  <body>
+    {% extends 'cuenta/principal.html' %}
+    {% block content %}
+
+    <div class="card">
+      <h5 class="card-header">Baja Solicitud</h5>
+      <div class="card-body">
+        <h5 class="card-title">Desea cancelar la cita con "{{ solicitud.EmpId }}" de la fecha "{{solicitud.FechaSolicitud}}" y hora {{solicitud.HoraSolicitud}}?</h5>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-2" align= "Center">
+              <a href="{% url 'home' %}" class="btn btn-success">Volver</a>
+            </div>
+            <div class="col-md-2" align= "Center">
+              <input type="submit" class="btn btn-danger" name="btn_baja" value="Aceptar">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    {% endblock%}
+  </body>
+
+</html>

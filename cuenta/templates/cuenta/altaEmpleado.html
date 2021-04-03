@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	{%  extends 'cuenta/principal.html' %}
+	{% block content %}
+	{% load static %}
+
+	<head>
+		<title>
+			@gen-date / Agregar Empleado
+		</title>
+	</head>
+  <script>
+  
+    $(document).ready(function(){
+    
+      
+      // AJAX GET
+      $('#obtenerUsuario').click(function(){
+        var usuAdmin = document.getElementById('inputUsuAdmin').value;
+        $.ajax({
+          type: "GET",
+          url: "/ajax/obtenerUsuario/",
+          data:{usuAdmin: usuAdmin}
+        
+        })
+        .done(function(data){ 
+            var usuario = (data["data"]);
+            if(usuario != null){
+              // Cambiamos URL del formulario
+              //$('#agregarAdmin').attr('action','agregarAdmin/']);
+              
+              // Cargamos los datos del usuario buscado
+              $('#datos_usuario').css('visibility', 'visible');
+              $('#datos_usuario').html('');
+              $('#datos_usuario').append("<b>Usuario: </b>"+usuario[1]);
+              $('#datos_usuario').append("</br>");
+              $('#datos_usuario').append("<b>Email: </b>"+usuario[2]);
+              $('#datos_usuario').append("</br>");
+              $('#datos_usuario').append("<b>Nombre: </b>"+usuario[3]);
+              $('#datos_usuario').append("</br>");
+              $('#datos_usuario').append("<b>Apellido: </b>"+usuario[4]);
+              $('#datos_usuario').append("</br>");
+    
+              // Habilitamos boton para agregar de forma dinamica
+              $('#btnAgregarAdmin').prop('disabled',false);
+              $('#btnAgregarAdmin').addClass('btn-primary');
+              $('#btnAgregarAdmin').removeClass('btn-secondary');
+
+              // Guardamos Valor Id
+              $('#inputUsuAdminId').prop('value',usuario[0]);
+            }else{
+              // Borramos los datos del usuario buscado
+              $('#datos_usuario').css('visibility', 'visible');
+              $('#datos_usuario').html('');
+              $('#datos_usuario').append("<b>No existe usuario administrador con los datos ingresados.</b>");
+              
+              // Deshabilitamos boton de agregar
+              $('#btnAgregarAdmin').prop('disabled',true);
+              $('#btnAgregarAdmin').removeClass('btn-primary');
+              $('#btnAgregarAdmin').addClass('btn-secondary');
+
+              // Borrar Valor Id
+              $('#inputUsuAdminId').prop('value','');
+            }
+          }
+        )
+      });
+    });
+    </script>
+
+<body>
+  <br />
+  <h5>Agregar Empleado: </h5>
+  <form id="agregarAdmin" action="" method="POST">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <br>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <input type="text" class="form-control" name="inputUsuAdmin" id="inputUsuAdmin" placeholder="Ingrese administrador">
+              <input type="hidden" id="inputUsuAdminId" name="inputUsuAdminId" value="" />
+            </div>
+            <div class="form-group col-md-4">
+              <button id="obtenerUsuario" type="button" class="btn btn-info">Buscar</button>
+            </div>
+          </div>
+          <small class="form-text text-muted">Puede buscar por ID, Usuario o Email del Administrador.</small>
+        </div>
+      <div class="form-group col-md-4">
+        <div id="datos_usuario" style="visibility: hidden;"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2" align= "Center">
+        <a href="/" type="button" class="btn btn-success">Volver</a>
+      </div>
+      <div class="col-md-2" align= "Center">
+        <input id="btnAgregarAdmin" type="submit" class="btn btn-secondary" name="Submit" value= "Agregar" disabled>
+      </div>
+    </div>
+  </form>
+</body>
+{% endblock %}
+</html>

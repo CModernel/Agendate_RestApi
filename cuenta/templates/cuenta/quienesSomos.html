@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load static %}
+{% static "" as baseURL %}
+
+<html>
+    <head>
+        <title>@gen-date / Quienes somos</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="icon" type="image/png" href="../static/images/logos/agendateico.ico" />
+ 
+        <style>
+            body{
+                background-color: #ebeff5;
+            }
+        </style>
+    </head>
+    <body>
+        {% include 'cuenta/barraLogin.html' %}
+        <div class='container-fluid'>
+            <style>
+                div.a{
+
+                    text-align: center;
+                    }
+                div.b{
+
+                    text-align: right;
+                    }
+            </style>
+            <br>
+            <div class="a">
+                <h2>Quienes Somos</h2>
+                <hr>
+                <br>
+            
+
+                <img src="{{ baseURL }}images/logos/logoakaizen-big.jpg">
+                <br>
+                <h3>Somos Kaizen</h3>
+                <p><b>Kaizen</b> es un término de origen Japonés cuyo significado es "Mejora contínua".</p>
+                <p>Ese significado es el espíritu de trabajo de nuestro equipo.</p>
+                <p>En <b>Kaizen</b> somos un Grupo de estudiantes de las Tecnologías de la Información.</p>
+                <p>En pos de la aplicación de lo estudiado y con la intención de demostrar nuestras habilidades</p>
+                <p>elaboramos un proyecto por demás innovador llamado :</p>
+                <br>
+                <img src="{{ baseURL }}images/logos/logoagendate-medium.png">
+                <br>
+                <p>Este Producto es más que una agenda... es una multiagenda</p>
+                <br>
+                <br>
+            </div>
+            <div class="b">
+                <h4>@gen-date... <i>Simplifica Tu Vida</i></h4>
+            </div>
+        </div>
+        <hr>
+        <h6>© 2020 Kaizen. Todos los Derechos Reservados.</h6>
+    </body>
+    
+</html>

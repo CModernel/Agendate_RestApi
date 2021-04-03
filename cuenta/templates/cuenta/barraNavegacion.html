@@ -1,0 +1,65 @@
+    <!-- Sidebar -->
+
+<style>
+  .header-msg{
+    font-size: 18px;
+    color: #fff;
+    margin-right: 20px;
+  }
+  .nav-link{
+    font-size: 20px;
+    color:#ffffff;
+    background-color:transparent;
+    border-color:transparent;
+    display: block;
+    padding: .5rem 1rem;
+  }
+  .nav-link2{
+    color:#ffffff;
+    background-color:transparent;
+    border-color:transparent;
+    display: block;
+    padding: .5rem 1rem;
+  }
+</style>
+
+{% load static %}
+{% static "" as baseURL %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/"> <img src="{{ baseURL }}images/logos/logo_agendate_main.png"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      {% if request.session.empresaSel is not None %}
+      <li class="nav-item">
+        <a class="nav-link" href="/agendar">Agendar</a>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link2">|</span>
+      </li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="/verAgenda">Ver Agenda</a>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link2">|</span>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/modificarDatos">Modificar mis Datos</a>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link2">|</span>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/bajaSistema">Baja del Sistema</a>
+      </li>
+    </ul>
+  </div>
+
+  <span class="header-msg" style="color:whitesmoke">* Sistema Usuario *</span>
+  <span class="header-msg"> Hola, {{request.user}} </span>
+    <a type="button" class="btn btn-secondary" href='{% url "logout" %}'>Desloguearse</a>
+</nav>
+      <!-- /#sidebar-wrapper -->

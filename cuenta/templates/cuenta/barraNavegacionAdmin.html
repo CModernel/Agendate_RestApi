@@ -1,0 +1,85 @@
+    <!-- Sidebar -->
+
+<style>
+  .header-msg{
+    font-size: 18px;
+    color: #fff;
+    margin-right: 20px;
+  }
+  .nav-link{
+    font-size: 20px;
+    color:#343a40;
+    background-color:transparent;
+    border-color:#343a40;
+    display: block;
+    padding: .5rem 1rem;
+  }
+  .nav-link2{
+    color:#ffffff;
+    background-color:transparent;
+    border-color:#343a40;
+    display: block;
+    padding: .5rem 1rem;
+  }
+</style>
+
+{% load static %}
+{% static "" as baseURL %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary text-white ">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      {% if request.user.groups.all|length != 0 %}
+        <li class="nav-item">
+          <a class="nav-link" href="/crearEmpresa">Crear Empresa</a>
+        </li>
+
+      {% endif %}
+      {% if request.session.empresaSel is not None %}
+        {% if request.user.groups.all|length != 0 %}
+        <li class="nav-item">
+          <span class="nav-link2">|</span>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="/verAgendaEmpresa">Ver Agenda Empresa</a>
+        </li>
+        {% if request.session.empresaSelRol == "Admin" %}
+        <li class="nav-item">
+          <span class="nav-link2">|</span>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administrar Empresa</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/administrarEmpresa/altaEmpleado">Alta Empleado</a>
+            <a class="dropdown-item" href="/administrarEmpresa/bajaEmpleado">Baja Empleado</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/administrarEmpresa/modificarHorarios">Modificar Horarios</a>
+            <a class="dropdown-item" href="/administrarEmpresa/modificarEmpresa">Modificar Empresa</a>
+            <a class="dropdown-item" href="/administrarEmpresa/bajaEmpresa">Baja Empresa</a>
+          </div>
+        </li>
+        {% endif %}
+      {% endif %}
+    </ul>
+  </div>
+  
+  {% if request.session.empresaSel is None  %}
+    <span class="header-msg" style="color:whitesmoke">* Sistema Administrador *</span>
+  {% else %}
+    <span class="header-msg" style="color:whitesmoke; font-weight: bold;" >Empresa: </span>
+    <div>
+        {% if request.session.empresaMultiple == False  %}
+          <span>{{request.session.empresaSelNombre}}</span>
+        {% else %}
+          <a href="{% url 'seleccionEmpresa' %}" class="btn btn-secondary" type="button">
+            {{request.session.empresaSelNombre}}
+          </a>
+        {% endif %}
+    </div>
+  {% endif %}
+  
+</nav>
+<!-- /#sidebar-wrapper -->

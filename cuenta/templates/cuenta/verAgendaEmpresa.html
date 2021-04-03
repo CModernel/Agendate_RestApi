@@ -1,0 +1,38 @@
+{% extends 'cuenta/principal.html' %}
+
+{% block content %}
+<br>
+<h2>Ver Reservas</h2>
+<hr>
+
+<table class="table table-striped">
+	<thead>
+	  <tr>
+		<th scope="col">#</th>
+		<th scope="col">Cliente</th>
+		<th scope="col">Fecha</th>
+		<th scope="col">Hora</th>
+		<th scope="col">Telefono</th>
+	    <th scope="col">email</th>
+		<th scope="col" style="text-align: center;">Dar de baja</th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for i in solicitudes %}
+	  <tr>
+		<th scope="row">{{forloop.counter}}</th>
+		<td>{{i.UsuId}}</td>
+		<td>{{i.FechaSolicitud}}</td>
+		<td>{{i.HoraSolicitud}}</td>
+		<td>{{i.EmpId.EmpTelefono}}</td>
+	    <td>{{i.UsuId.email}}</td>
+
+		<td style="text-align: center;"><a href="{% url 'bajaSolicitud' i.id %}" type="button" class="btn btn-danger">X</a></td>
+	  </tr>
+	{% endfor %}
+	</tbody>
+ </table>
+ <a href="/" type="button" class="btn btn-success">Volver</a>
+
+
+{% endblock%}

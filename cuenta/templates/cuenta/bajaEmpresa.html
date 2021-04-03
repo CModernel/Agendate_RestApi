@@ -1,0 +1,25 @@
+{% extends 'cuenta/principal.html' %}
+
+{% block content %}
+<br>
+<h2>Baja Empresa</h2>
+<hr>
+
+<div class="card">
+  <div class="card-body">
+      <h5 class="card-title">Esta seguro que desea dar de baja a la empresa "{{request.session.empresaSelNombre}}"?</h5>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-2" align= "Center">
+            <a href="{% url 'home' %}" class="btn btn-success">Volver</a>
+          </div>
+          <div class="col-md-2" align= "Center">
+            <input type="submit" class="btn btn-danger" name="btn_baja" value="Darse de baja">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock%}
+

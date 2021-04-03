@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+    {% extends 'cuenta/principal.html' %}
+    {% block content %}
+    {% load static %}
+    {% static "" as baseURL %}
+    <head>
+        <title>
+            @gen-date / Modificar Mis Datos
+        </title>
+        <br>
+        <h2>Modificar mis datos</h2>
+        <hr>
+        <style>
+            div.e{
+                text-align: "center";
+                font-style: italic;
+                font-size: medium;
+                }
+            div.f{
+                text-align: "center";
+                font-size: medium;
+                }
+        </style>
+    </head>
+
+    <body>
+        <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-5    " align= "Center">
+                <h4>Tus Datos Actuales</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="e">
+                            <p>Id :</p>  
+                            <p>Nombre :</p>      
+                            <p>Apellido :</p>
+                            <p>E-mail :</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p>{{request.user.id}}</p>
+                        <p>{{request.user.first_name}}</p>
+                        <p>{{request.user.last_name}}</p>
+                        <p>{{request.user.email}}</p>
+                        <br>
+                    </div>
+                </div>
+                <a href="/" type="button" class="btn btn-success">Volver</a>
+            </div>
+            <div class="col-md-5" align= "Center">
+                <h4>Tus Nuevos Datos</h4>
+                <div class="row">
+                    <div class="col-md-4" align= "Center">
+                        <div class="e">
+                            <p>Nombre :</p>      
+                            <p>Apellido :</p>
+                            <p>E-mail :</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4" align= "Center">
+                        <p>{{form.first_name}}</p>
+                        <p>{{form.last_name}}</p>
+                        <p>{{form.email}}</p>
+                        <br>
+                        <input type="submit" name="Submit">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+
+</body>
+
+{% endblock%}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	{% extends 'cuenta/principal.html' %}
+	{% block content %}
+
+	<head>
+		<title>
+			@gen-date / Elegir Rubro
+	  	</title>
+	</head>
+
+	<body>
+		<br>
+		{% for message in messages %}
+			<div class="{{ message.tags }}" role="alert">
+				{{message}}
+			</div>
+		{% endfor %}
+
+<!-- de Rubros -->
+		<div class="row">
+			<div class="col-md-4">
+				<h3 style="text-align:center"> Rubros </h3>
+				<hr>
+				<div class="card card-body">
+					{% for rubro in rubros %}
+						<a href="{% url 'servicio' rubro.id %}" class="btn btn-outline-success btn-lg btn-block">{{rubro.rubroNom}}</a>
+					{% endfor %}
+				</div>
+			</div>
+
+<!-- Veo la agenda del día -->
+			<div class="col-md-7">
+				<h3 style="text-align:center">Tu @gen-date del día : <i>{{ fecha }}</i></h3>
+				<hr>
+
+<!-- Mensaje en caso de no haber solicitudes para hoy -->
+				{% if not solicitudes %}
+					<h5>*** No hay reservas para el día de hoy ***</h5>
+				{% else%}
+
+				<div class="card card-body">
+					<a href = "/" class="btn btn-info  btn-sm btn-block" onClick='valor(); return false;'>Cancelar turno</a>
+					<table class="table table-sm">
+						<tr>
+							<th><i><h5>Empresa</h5></i></th>
+							<th><i><h5>Hora</h54></i></th>
+							<th><i><h5>Dirección</h5></i></th>
+							<th><i><h5>Teléfono</h5></i></th>
+						</tr>
+						{% for i in solicitudes %}
+							<tr>
+								<th>{{i.EmpId}}</th>
+								<th>{{i.HoraSolicitud}}</th>
+								<th>{{i.EmpId.EmpDirCalle}} {{i.EmpId.EmpDirNum}}</th>
+								<th>{{i.EmpId.EmpTelefono}}</th>
+								<th> <input type = "radio" name = "radioSolicitud" value = "{{i.id}}">	</th>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+				{% endif %}
+			</div>
+			<script>
+				function valor(){
+					var chequear = document.getElementsByName('radioSolicitud');
+					for(i = 0; i < chequear.length; i++){
+						if(chequear[i].checked){
+							var url = "{% url 'bajaSolicitud' 123 %}".replace('123', chequear[i].value);
+        	        		window.location.href = url;
+						}
+					}
+				}
+			</script>
+		</div>
+
+	</body>
+
+	{% endblock%}
+
+</html>

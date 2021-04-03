@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+    {% load static %}
+    {% static "" as baseURL %}
+
+    <head>
+        <title>
+            @gen-date / Contacto
+        </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="icon" type="image/png" href="../static/images/logos/agendateico.ico" />
+
+        <style>
+            body{
+                background-color: #ebeff5;
+                }
+        </style>
+    </head>
+
+    <body>
+        {% include 'cuenta/barraLogin.html' %}
+        <div class='container-fluid'>
+            <style>
+                div.a{
+                    text-align: center;
+                    }
+
+                div.b{
+                    text-align: right;
+                    }
+
+                div.c{
+                    background-color:  transparent;
+                    background-image: url("../static/images/logos/logoagendate-big.png");
+                    background-repeat: no-repeat;
+                    background-position:center top;
+                    background-size: 600px 480px;           
+                    }
+            </style>
+        </div>
+        <div class="a">
+            <img src="{{ baseURL }}images/logos/logoagendate-medium.png" alt="some_text" style="opacity:0.4;filter:alpha(opacity=40);"/>                    
+            <hr>
+            <h2>Contacto</h2>
+            <hr>
+        </div>
+          
+        <div class="a">          
+            <h2>Correo... <b>AgendateKaizen@gmail.com</b></h2>
+            <br>
+        </div>
+        <hr>
+
+<!-- Foto/Nombre/Correo del equipo Kaizen -->
+        <div class="row">
+            <div class="col-md-2" align= "Center">
+                <img src="{{ baseURL }}images/equipo/Jimena.jpg" width=40 height=40>
+                <p><i>Jimena Gorón</i></p>
+                <p>asiak2000@gmail.com</p>
+            </div>
+            <div class="col-md-2" align= "Center">
+                <img src="{{ baseURL }}images/equipo/Andres0.jpg" width=40 height=40>
+                <p><i>Andrés Faruelo</i></p>
+                <p>andresfaruelo@gmail.com</p>
+            </div>
+            <div class="col-md-2" align= "Center">
+                <img src="{{ baseURL }}images/equipo/Christian.jpg" width=40 height=40>
+                <p><i>Christian Modernell</i></p>
+                <p>chrismmodernel@gmail.com</p>
+            </div>
+            <div class="col-md-2" align= "Center">
+                <img src="{{ baseURL }}images/equipo/Nicolas.png" width=40 height=40>
+                <p><i>Nicolás Marigliani</i></p>
+                <p>nmarigliani@gmail.com</p>
+            </div>
+            <div class="col-md-2" align= "Center">
+                <img src="{{ baseURL }}images/equipo/Pablo.jpg" width=40 height=40>
+                <p><i>Pablo Franco</i></p>
+                <p>gpabloffg@gmail.com</p>
+            </div>
+        </div>
+        <hr>
+        <h6>© 2020 Kaizen. Todos los Derechos Reservados.</h6>
+    </body>
+
+</html>

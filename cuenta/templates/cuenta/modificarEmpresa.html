@@ -1,0 +1,81 @@
+    <!DOCTYPE html>
+    <html>
+      {%  extends 'cuenta/principal.html' %}
+      {% block content %}
+      {% load static %}
+    
+      <head>
+        <title>
+          @gen-date / Modificar Empresa
+        </title>
+      </head>
+
+      <body>
+        <br />
+        <h5>Agregar Empleado: </h5>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputRut">RUT:</label>
+          {{form.EmpRUT}}
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputRazonSocial">Razon Social:</label>
+          {{form.EmpRazonSocial}}
+        </div>
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputCalle">Calle:</label>
+            {{form.EmpDirCalle}}
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputEsquina">Esquina:</label>
+            {{form.EmpDirEsquina}}
+          </div>
+          <div class="form-group col-md-2">
+            <label for="inputNumero">Numero:</label>
+            {{form.EmpDirNum}}
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputTelefono">Telefono:</label>
+            {{form.EmpTelefono}}
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputEmail">E-mail:</label>
+            {{form.EmpDirEmail}}
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="inputAddress">Descripcion:</label>
+              {{form.EmpDescripcion}}
+          </div>
+          <div class="form-group col-md-6">
+              <label for="inputRubro">Rubro:</label>
+              {{form.EmpRubro1}}
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="inputImagen">Imagen:</label>
+              {{form.EmpImagen}}
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6" align= "Center">
+            <a href="/" type="button" class="btn btn-success">Volver</a>
+        </div>
+        <div class="col-md-6" align= "Center">
+            <input type="submit" class="btn btn-primary" name="Submit" value= "Modificar">
+        </div>
+    </div>
+    </form>
+    </body>
+    {% endblock %}
+  </html>

@@ -1,0 +1,12 @@
+{% extends 'cuenta/principal.html' %}
+
+{% block content %}
+	<br>
+	{% for message in messages %}
+		<div class="{{ message.tags }}" role="alert">
+			{{message}}
+		</div>
+	{% endfor %}
+	<h2>Perfil Administrador</h2>
+
+{% endblock%}

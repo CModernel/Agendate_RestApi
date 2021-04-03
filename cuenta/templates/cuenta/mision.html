@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+{% static "" as baseURL %}
+
+<html>
+    <head>
+        <title>@gen-date / Mision</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="icon" type="image/png" href="../static/images/logos/agendateico.ico" />
+        <style>
+            body::after {
+                background-color: #ebeff5;
+                background-image: url("../static/images/logos/logoagendate-trans.png");
+                background-repeat: no-repeat;
+                background-size: 800px 600px;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                content: "";
+                opacity: 0.2;
+                background-position: center;
+                position: absolute;
+                z-index: -1;   
+                }
+        </style>
+    </head>
+    <body>
+        {% include 'cuenta/barraLogin.html' %}
+        <div class='container-fluid'>
+            <style>
+                div.a{
+                    text-align: center;
+                    }
+            </style>
+        </div>
+
+        <div class="a">
+            <br>
+            <h2>Misión</h2>
+            <hr>
+            <p>En <b>Kaizen</b> intentamos optimizar tu tiempo.</p>
+            <p>Por ello nos ocupamos de crear un sistema de reservas para turnos de variados servicios</p>
+            <p>con el fin de que tu tiempo se optimice,</p>
+            <p>evitando comunicaciones fallidas para agendarte, </p>
+            <p>o las tediosas negociaciones con los servicios buscando cuando a tí te sirva.</p>
+            <p>Buscamos que puedas reservar <b>desde cuarquier parte</b> y sobre todo <b>en cualquier momento</b>.</p> 
+            <p>Para tí, creamos <b><i>@gen-date</i></b>, una aplicación fácil de usar y al alcance de un click.</p>
+            <p>En <b>Kaizen</b> nos da placer hacerte la vida más facil... </p>
+            <p>por eso en <b>Kaizen</b> ... <b><i>Simplificamos Tu Vida</i></b></p>
+        </div>
+        <hr>
+        <h6>© 2020 Kaizen. Todos los Derechos Reservados.</h6>
+    </body>
+ </html>

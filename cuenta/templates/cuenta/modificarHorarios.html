@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Establecer horario</title>
+    <hr>
+    <style>
+        .alto{height: 100px;}
+    </style>
+</head>
+
+<body>
+    {% extends 'cuenta/principal.html' %}
+    {% block content %}
+
+<!--Encabezado de la Tabla-->
+    <h1 class="py-2 text-center">Establecer Horarios</h1>
+
+    <form action = "" method="POST">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"><h4>Desde : </h4></div>
+                <div class="col-md-4"><h4>Hasta : </h4></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 align-self-center">
+                    <h4>{{dias.0}} </h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.LunesDesde }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.LunesHasta }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 align-self-center">
+                    <h4>{{dias.1}} </h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.MartesDesde }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.MartesHasta }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 align-self-center">
+                    <h4>{{dias.2}} </h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.MiercolesDesde }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.MiercolesHasta }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 align-self-center">
+                    <h4>{{dias.3}} </h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.JuevesDesde }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.JuevesHasta }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 align-self-center">
+                    <h4>{{dias.4}} </h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.ViernesDesde }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.ViernesHasta }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 align-self-center">
+                    <h4>{{dias.5}} </h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.SabadoDesde }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.SabadoHasta }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-4 align-self-center">
+                    <h4>{{dias.6}} </h4>
+                </div>
+                <div class="col-md-4">
+                    {{ form.DomingoDesde }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.DomingoHasta }}
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-6" align= "Center">
+                <a href="/" type="button" class="btn btn-success">Volver</a>
+            </div>
+            <div class="col-md-6" align= "Center">
+                <input type="submit" value="Grabar" class="default" name="_save">
+            </div>
+        </div>
+    </form>
+    {% endblock%}
+</body>

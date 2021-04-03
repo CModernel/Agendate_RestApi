@@ -1,0 +1,32 @@
+{% extends 'cuenta/principal.html' %}
+
+{% block content %}
+<br>
+<h2>Baja Empleado</h2>
+<hr>
+
+<table class="table table-striped">
+	<thead>
+	  <tr>
+		<th scope="col">#</th>
+		<th scope="col">Nombre</th>
+	    <th scope="col">email</th>
+		<th scope="col" style="text-align: center;">Dar de baja</th>
+	  </tr>
+	</thead>
+	<tbody>
+	{% for i in usuariosEmp %}
+	  <tr>
+		<th scope="row">{{forloop.counter}}</th>
+		<td>{{i.UsuId}}</td>
+	    <td>{{i.UsuId.email}}</td>
+
+		<td style="text-align: center;"><a href="{% url 'bajaEmpleadoConfirmar' i.UsuId_id %}" type="button" class="btn btn-danger">X</a></td>
+	  </tr>
+	{% endfor %}
+	</tbody>
+ </table>
+ <a href="/" type="button" class="btn btn-success">Volver</a>
+
+
+{% endblock%}
