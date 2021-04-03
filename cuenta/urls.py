@@ -39,4 +39,6 @@ urlpatterns = [
 
     path('api/', views.apiList, name="apiList"),
     path('api/seleccionarRubroV1', views.seleccionarRubroV1, name="seleccionarRubroV1"),
+    path('api/elegirServicioV1/<str:rubro>/', views.elegirServicioV1, name="elegirServicioV1"),
+    
 ]

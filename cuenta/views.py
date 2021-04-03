@@ -9,8 +9,6 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-
-
 from cuenta.forms import FormularioCreacionUsuario, FormularioModificarUsuario, FormularioElegirHorario, FormularioEmpresa, FormularioHorarios
 from cuenta.models import solicitud, empresa, rubro, horario, User, usuariosEmpresa
 from cuenta.utils import rango_horas, es_numerico
@@ -26,7 +24,7 @@ from django.conf import settings
 
 #Serializador
 from .models import rubro
-from .serializers import rubroSerializer
+from .serializers import rubroSerializer, elegirServicioSerializer
 
 @usuario_noAutenticado
 def registro(request):
@@ -516,4 +514,11 @@ def apiList(request):
 def seleccionarRubroV1(request):
     rubros = rubro.objects.all()
     serializer = rubroSerializer(rubros, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def elegirServicioV1(request, rubro):
+    servicios = (empresa.objects.filter(EmpRubro1=rubro) & empresa.objects.filter(EmpActivo=True)) | (empresa.objects.filter(EmpRubro2=rubro) & empresa.objects.filter(EmpActivo=True))
+    #rubros = rubro.objects.all()
+    serializer = elegirServicioSerializer(servicios, many=True)
     return Response(serializer.data)
