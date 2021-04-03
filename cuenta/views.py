@@ -4,6 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.messages import constants
+from django.http import JsonResponse
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
 
 from cuenta.forms import FormularioCreacionUsuario, FormularioModificarUsuario, FormularioElegirHorario, FormularioEmpresa, FormularioHorarios
 from cuenta.models import solicitud, empresa, rubro, horario, User, usuariosEmpresa
@@ -17,6 +23,10 @@ from .decorators import usuario_noAutenticado,  solo_admin, solo_admin_empresa, 
 #para los mails
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
+
+#Serializador
+from .models import rubro
+from .serializers import rubroSerializer
 
 @usuario_noAutenticado
 def registro(request):
@@ -491,3 +501,19 @@ def bajaEmpleadoConfirmar(request, UsuId):
             return redirect('/')
 
     return render(request, 'cuenta/bajaEmpleadoConfirmar.html', {'usuario': usuario})
+
+@api_view(['GET'])
+def apiList(request):
+    api_urls = {
+        'verAgendaV1':'/verAgendaV1/',
+        'seleccionarRubroV1':'/seleccionarRubroV1/',
+        'elegirServicioV1':'/elegirServicioV1/<str:rubro>/',
+        'elegirHorarioV1':'/elegirHorarioV1/<str:empresaSel>/<str:fechaSel>',
+        }
+    return Response(api_urls)
+
+@api_view(['GET'])
+def seleccionarRubroV1(request):
+    rubros = rubro.objects.all()
+    serializer = rubroSerializer(rubros, many=True)
+    return Response(serializer.data)

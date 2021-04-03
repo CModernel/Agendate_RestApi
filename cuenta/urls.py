@@ -34,5 +34,9 @@ urlpatterns = [
     
     path('administrarEmpresa/bajaEmpresa', views.bajaEmpresa, name="bajaEmpresa"),
 
-    path('ajax/obtenerUsuario/', ajax.obtenerUsuario, name="obtenerUsuario")
+    path('ajax/obtenerUsuario/', ajax.obtenerUsuario, name="obtenerUsuario"),
+
+
+    path('api/', views.apiList, name="apiList"),
+    path('api/seleccionarRubroV1', views.seleccionarRubroV1, name="seleccionarRubroV1"),
 ]
