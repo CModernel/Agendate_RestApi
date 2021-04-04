@@ -505,9 +505,8 @@ def bajaEmpleadoConfirmar(request, UsuId):
 @api_view(['GET'])
 def apiList(request):
     api_urls = {
-        'verAgendaV1':'/verAgendaV1/',
         'getAllRubrosV1':'/getAllRubrosV1/',
-        'servicioListaV1':'/servicioListaV1/',
+        'getAllEmpresasV1':'/getAllEmpresasV1/',
         'elegirServicioV1':'/elegirServicioV1/<str:rubro>/',
         'elegirHorarioV1':'/elegirHorarioV1/<str:empresaSel>/<str:fechaSel>',
         }
