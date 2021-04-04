@@ -8,6 +8,8 @@ from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import serializers
+import json
 
 from cuenta.forms import FormularioCreacionUsuario, FormularioModificarUsuario, FormularioElegirHorario, FormularioEmpresa, FormularioHorarios
 from cuenta.models import solicitud, empresa, rubro, horario, User, usuariosEmpresa
@@ -504,21 +506,69 @@ def bajaEmpleadoConfirmar(request, UsuId):
 def apiList(request):
     api_urls = {
         'verAgendaV1':'/verAgendaV1/',
-        'seleccionarRubroV1':'/seleccionarRubroV1/',
+        'getAllRubrosV1':'/getAllRubrosV1/',
+        'servicioListaV1':'/servicioListaV1/',
         'elegirServicioV1':'/elegirServicioV1/<str:rubro>/',
         'elegirHorarioV1':'/elegirHorarioV1/<str:empresaSel>/<str:fechaSel>',
         }
     return Response(api_urls)
 
 @api_view(['GET'])
-def seleccionarRubroV1(request):
+def getAllRubrosV1(request):
     rubros = rubro.objects.all()
     serializer = rubroSerializer(rubros, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def elegirServicioV1(request, rubro):
-    servicios = (empresa.objects.filter(EmpRubro1=rubro) & empresa.objects.filter(EmpActivo=True)) | (empresa.objects.filter(EmpRubro2=rubro) & empresa.objects.filter(EmpActivo=True))
-    #rubros = rubro.objects.all()
+def getAllEmpresasV1(request):
+    servicios = empresa.objects.all()
     serializer = elegirServicioSerializer(servicios, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def elegirServicioV1(request, rubro):
+    servicios = (empresa.objects.filter(EmpRubro1=rubro) & empresa.objects.filter(EmpActivo=True)) | (empresa.objects.filter(EmpRubro2=rubro) & empresa.objects.filter(EmpActivo=True))
+    serializer = elegirServicioSerializer(servicios, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getHorarioSolicitudEmpresaPorFechaV1(request, empresaSel, fechaSel):
+    horarioEmpresa = horario.objects.filter(EmpId=empresaSel).first()
+    solicitudesSet = set(solicitud.objects.filter(FechaSolicitud=fechaSel, EmpId=empresaSel, SolicitudActivo=True).values_list('HoraSolicitud', flat=True))
+
+    solicitudes = set()
+    for i in solicitudesSet:
+        solicitudes.add(i.strftime("%H:%M"))
+
+    desdeHasta = ["Desde", "Hasta"]
+    dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"]
+    fecha = datetime.datetime.strptime(fechaSel, "%Y-%m-%d").date()
+    numDia = fecha.weekday()
+
+    horarioDesde = getattr(horarioEmpresa, dias[numDia]+desdeHasta[0])
+    horarioHasta = getattr(horarioEmpresa, dias[numDia]+desdeHasta[1])
+
+    listaHorarios = []
+    listaHorariosVencidos = []
+
+    if horarioDesde is not None and horarioHasta is not None:
+        inicio = datetime.datetime.now().replace(hour=horarioDesde.hour, minute=horarioDesde.minute, second=horarioDesde.second)
+        fin = datetime.datetime.now().replace(hour=horarioHasta.hour, minute=horarioHasta.minute, second=horarioHasta.second)
+        listaHorarios = [ dt.strftime('%H:%M') for dt in rango_horas(inicio, fin, timedelta(minutes=30)) ]
+
+        if fechaSel == str(date.today()) :
+            fin = datetime.datetime.now() + timedelta(minutes=59)
+            listaHorariosVencidos = [ dt.strftime('%H:%M') for dt in rango_horas(inicio, fin, timedelta(minutes=30)) ]
+
+    res = {"Horario": [], "Solicitudes": [], "HorariosVencidos": []}
+ 
+    for idx in range(len(listaHorarios)):
+        res["Horario"].append(listaHorarios[idx])
+
+    for idx in range(len(solicitudes)):
+        res["Solicitudes"].append(solicitudes[idx])   
+
+    for idx in range(len(listaHorariosVencidos)):
+        res["HorariosVencidos"].append(listaHorariosVencidos[idx])   
+
+    return Response(json.dumps(res))
