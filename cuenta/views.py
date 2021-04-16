@@ -533,11 +533,11 @@ def elegirServicioV1(request, rubro):
 @api_view(['GET'])
 def getHorarioSolicitudEmpresaPorFechaV1(request, empresaSel, fechaSel):
     horarioEmpresa = horario.objects.filter(EmpId=empresaSel).first()
-    solicitudesSet = set(solicitud.objects.filter(FechaSolicitud=fechaSel, EmpId=empresaSel, SolicitudActivo=True).values_list('HoraSolicitud', flat=True))
+    solicitudesSet = solicitud.objects.filter(FechaSolicitud=fechaSel, EmpId=empresaSel, SolicitudActivo=True).values_list('HoraSolicitud', flat=True)
 
-    solicitudes = set()
+    solicitudes = []
     for i in solicitudesSet:
-        solicitudes.add(i.strftime("%H:%M"))
+        solicitudes.append(i.strftime("%H:%M"))
 
     desdeHasta = ["Desde", "Hasta"]
     dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes","Sabado","Domingo"]
@@ -570,4 +570,4 @@ def getHorarioSolicitudEmpresaPorFechaV1(request, empresaSel, fechaSel):
     for idx in range(len(listaHorariosVencidos)):
         res["HorariosVencidos"].append(listaHorariosVencidos[idx])   
 
-    return Response(json.dumps(res))
+    return Response((res))
