@@ -27,6 +27,7 @@ from django.conf import settings
 #Serializador
 from .models import rubro
 from .serializers import rubroSerializer, elegirServicioSerializer
+from cuenta.serializers import verAgendaSerializer, verMiPerfilSerializer
 
 @usuario_noAutenticado
 def registro(request):
@@ -509,6 +510,9 @@ def apiList(request):
         'getAllEmpresasV1':'/getAllEmpresasV1/',
         'elegirServicioV1':'/elegirServicioV1/<str:rubro>/',
         'elegirHorarioV1':'/elegirHorarioV1/<str:empresaSel>/<str:fechaSel>',
+        'verAgendaV1':'/verAgendaV1/<str:UsuId>',
+        'verMiPerfilV1':'/verMiPerfilV1/<str:UsuId>',
+        'crearSolicitudV1':'/crearSolicitudV1/<str:empresaSel>/<str:fechaSel>/<str:horaSel>/<str:usuId>',
         }
     return Response(api_urls)
 
@@ -571,3 +575,45 @@ def getHorarioSolicitudEmpresaPorFechaV1(request, empresaSel, fechaSel):
         res["HorariosVencidos"].append(listaHorariosVencidos[idx])   
 
     return Response((res))
+
+@api_view(['GET'])
+def verAgendaV1(request, UsuId):
+    solicitudes = solicitud.objects.filter(UsuId=UsuId, FechaSolicitud__gte=datetime.date.today(), SolicitudActivo=True)
+    serializer = verAgendaSerializer(solicitudes, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def verMiPerfilV1(request, UsuId):
+    usuario = User.objects.get(id=UsuId)
+    serializer = verMiPerfilSerializer(usuario, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def crearSolicitudV1(request, empresaSel, fecha, hora, usuId):
+    empresaSeleccion = empresa.objects.filter(EmpId=empresaSel).first()
+    usuAdmin = usuariosEmpresa.objects.filter(EmpId_id=empresaSel, UsuEmpRol='Admin').first()
+    if(usuAdmin is None):
+        usuAdmin = usuariosEmpresa.objects.filter(EmpId_id=empresaSel, UsuEmpRol='Sub-Admin').first()
+
+    if(usuAdmin is not None):
+        if (not solicitud.objects.filter( EmpId_id=empresaSel, FechaSolicitud=fecha, HoraSolicitud=hora, SolicitudActivo=True).exists()):
+            nuevaSolicitud = solicitud(FechaSolicitud=fecha, HoraSolicitud=hora, SeConcreto=False, SolicitudActivo=True, UsuAdminResponsable_id=usuAdmin.id, UsuId_id=usuId, EmpId_id=empresaSel )
+            nuevaSolicitud.save()
+        else:
+            return Response('Ya existe una solicitud para esa hora.')
+    else:
+        return Response('No existe usuario administrador para la empresa seleccionada.', extra_tags='alert alert-danger')
+
+    return Response('OK')
+
+@api_view(['GET'])
+def bajaSolicitudV1(request, solicitudSel):
+    solicitudes = solicitud.objects.filter(id=solicitudSel).first()
+
+    if (solicitudes is not None):
+        solicitudes.SolicitudActivo = False
+        solicitudes.save()
+    else:
+        return Response('Nro de Solicitud no existe.')
+
+    return Response('OK')

@@ -41,4 +41,8 @@ urlpatterns = [
     path('api/getAllEmpresasV1/', views.getAllEmpresasV1, name="getAllEmpresasV1"),
     path('api/elegirServicioV1/<str:rubro>/', views.elegirServicioV1, name="elegirServicioV1"),
     path('api/elegirHorarioV1/<str:empresaSel>/<str:fechaSel>/', views.getHorarioSolicitudEmpresaPorFechaV1, name="getHorarioSolicitudEmpresaPorFechaV1"),
+    path('api/verAgendaV1/<str:UsuId>/', views.verAgendaV1, name="verAgendaV1"),
+    path('api/verMiPerfilV1/<str:UsuId>/', views.verMiPerfilV1, name="verMiPerfilV1"),
+    path('api/crearSolicitudV1/<str:empresaSel>/<str:fecha>/<str:hora>/<str:usuId>', views.crearSolicitudV1, name="crearSolicitudV1"),
+    path('api/bajaSolicitudV1/<str:solicitudSel>/', views.bajaSolicitudV1, name="bajaSolicitudV1"),
 ]
