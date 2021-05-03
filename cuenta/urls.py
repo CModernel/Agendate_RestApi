@@ -48,4 +48,5 @@ urlpatterns = [
     path('api/verAgendaV2/<str:UsuId>/', views.verAgendaV2, name="verAgendaV2"),
     path('api/checkLoginV1/<str:UsuId>/<str:Pwd>/', views.checkLoginV1, name="checkLoginV1"),
     path('api/modificarPerfilV1/<str:UsuId>/<str:PriNom>/<str:SegNom>/<str:Email>/', views.modificarPerfilV1, name="modificarPerfilV1"),
+    path('api/registrarUsuarioV1/<str:username>/<str:email>/<str:password>/<str:first_name>/<str:last_name>/', views.registrarUsuarioV1, name="registrarUsuarioV1"),
 ]

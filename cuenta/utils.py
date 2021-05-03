@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import re
 
 def rango_horas(inicio, fin, delta):
     actual = inicio
@@ -21,4 +22,21 @@ def es_numerico(s):
         float(s)
         return True
     except ValueError:
+        return False
+
+
+
+ 
+# Make a regular expression
+# for validating an Email
+regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+ 
+# Define a function for
+# for validating an Email
+def check(email):
+    # pass the regular expression
+    # and the string in search() method
+    if(re.search(regex, email)):
+        return True
+    else:
         return False

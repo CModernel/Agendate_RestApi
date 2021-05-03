@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, password_validation
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import JsonResponse
@@ -13,12 +13,16 @@ import json
 
 from cuenta.forms import FormularioCreacionUsuario, FormularioModificarUsuario, FormularioElegirHorario, FormularioEmpresa, FormularioHorarios
 from cuenta.models import solicitud, empresa, rubro, horario, User, usuariosEmpresa
-from cuenta.utils import rango_horas, es_numerico
+from cuenta.utils import rango_horas, es_numerico, check
 import datetime
 from datetime import date, timedelta
 
 from django.contrib.auth.decorators import login_required
 from .decorators import usuario_noAutenticado,  solo_admin, solo_admin_empresa, solo_admin_grupo, solo_usuario, validacion_cant_empresas
+
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+import re
 
 #para los mails
 from django.core.mail import send_mail, EmailMessage
@@ -28,6 +32,7 @@ from django.conf import settings
 from .models import rubro
 from .serializers import rubroSerializer, elegirServicioSerializer
 from cuenta.serializers import verAgendaSerializer, verAgendaSerializer2, verMiPerfilSerializer
+from django.core.validators import EmailValidator
 
 @usuario_noAutenticado
 def registro(request):
@@ -668,3 +673,35 @@ def modificarPerfilV1(request, UsuId, PriNom, SegNom, Email):
         return Response('Usuario no existe')
 
     return Response('OK')
+
+@api_view(['GET'])
+def registrarUsuarioV1(request, username, email, password, first_name, last_name):
+
+    if not re.match("^[A-Za-z0-9_-]*$", username):
+        return Response("Usuario debe ser 150 carácteres como máximo. Únicamente letras, dígitos y giones (-/_).")
+
+    usuario = User.objects.filter(username=username).first()
+    if usuario is not None:
+        return Response("El usuario ingresado ya existe.")
+
+    try:
+        validate_email(email)
+    except Exception as inst:
+        return Response(inst)
+
+    try:
+        password_validation.validate_password(password)
+    except Exception as inst:
+        return Response(inst)
+    
+
+    try:
+        user = User.objects.create_user(username=username,
+                                    email=email,
+                                    password=password,
+                                    first_name=first_name,
+                                    last_name=last_name)
+    except User.DoesNotExist:
+        return Response("Ocurrio un error al dar de alta el usuario.")
+
+    return Response("OK")
