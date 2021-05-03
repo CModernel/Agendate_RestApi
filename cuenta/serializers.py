@@ -17,6 +17,18 @@ class verAgendaSerializer(serializers.ModelSerializer):
         model = solicitud
         fields = '__all__'
 
+class serializerEmpresaRubro(serializers.ModelSerializer):
+    EmpRubro1 = serializers.StringRelatedField(many=False)
+    class Meta:
+        model = empresa
+        fields =  ['EmpRazonSocial', 'EmpTelefono','EmpRubro1']
+
+class verAgendaSerializer2(serializers.ModelSerializer):
+    EmpresaRubro = serializerEmpresaRubro(source='EmpId', many=False)
+    class Meta:
+        model = solicitud
+        fields = ['UsuId', 'EmpId', 'UsuAdminResponsable', 'FechaSolicitud', 'HoraSolicitud', 'SeConcreto', 'ComentarioAdmin', 'ComentarioUsuario', 'SolicitudActivo', 'EmpresaRubro']
+
 class verMiPerfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

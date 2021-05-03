@@ -45,4 +45,7 @@ urlpatterns = [
     path('api/verMiPerfilV1/<str:UsuId>/', views.verMiPerfilV1, name="verMiPerfilV1"),
     path('api/crearSolicitudV1/<str:empresaSel>/<str:fecha>/<str:hora>/<str:usuId>', views.crearSolicitudV1, name="crearSolicitudV1"),
     path('api/bajaSolicitudV1/<str:solicitudSel>/', views.bajaSolicitudV1, name="bajaSolicitudV1"),
+    path('api/verAgendaV2/<str:UsuId>/', views.verAgendaV2, name="verAgendaV2"),
+    path('api/checkLoginV1/<str:UsuId>/<str:Pwd>/', views.checkLoginV1, name="checkLoginV1"),
+    path('api/modificarPerfilV1/<str:UsuId>/<str:PriNom>/<str:SegNom>/<str:Email>/', views.modificarPerfilV1, name="modificarPerfilV1"),
 ]

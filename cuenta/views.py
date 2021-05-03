@@ -27,7 +27,7 @@ from django.conf import settings
 #Serializador
 from .models import rubro
 from .serializers import rubroSerializer, elegirServicioSerializer
-from cuenta.serializers import verAgendaSerializer, verMiPerfilSerializer
+from cuenta.serializers import verAgendaSerializer, verAgendaSerializer2, verMiPerfilSerializer
 
 @usuario_noAutenticado
 def registro(request):
@@ -511,6 +511,7 @@ def apiList(request):
         'elegirServicioV1':'/elegirServicioV1/<str:rubro>/',
         'elegirHorarioV1':'/elegirHorarioV1/<str:empresaSel>/<str:fechaSel>',
         'verAgendaV1':'/verAgendaV1/<str:UsuId>',
+        'verAgendaV2':'/verAgendaV2/<str:UsuId>',
         'verMiPerfilV1':'/verMiPerfilV1/<str:UsuId>',
         'crearSolicitudV1':'/crearSolicitudV1/<str:empresaSel>/<str:fechaSel>/<str:horaSel>/<str:usuId>',
         }
@@ -615,5 +616,54 @@ def bajaSolicitudV1(request, solicitudSel):
         solicitudes.save()
     else:
         return Response('Nro de Solicitud no existe.')
+
+    return Response('OK')
+
+@api_view(['GET'])
+def getEmpresaV1(request, empresaSel):
+    servicios = (empresa.objects.filter(EmpRubro1=rubro) & empresa.objects.filter(EmpActivo=True)) | (empresa.objects.filter(EmpRubro2=rubro) & empresa.objects.filter(EmpActivo=True))
+    serializer = elegirServicioSerializer(servicios, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def verAgendaV2(request, UsuId):
+    solicitudes = solicitud.objects.filter(UsuId=UsuId, FechaSolicitud__gte=datetime.date.today(), SolicitudActivo=True)
+    serializer = verAgendaSerializer2(solicitudes, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def checkLoginV1(request, UsuId, Pwd):
+
+    username = UsuId
+    password = Pwd
+
+    user = authenticate(request, username=username, password=password)
+
+    try:
+        if user is None:
+            username = UsuId.lower()
+            user = authenticate(request, username=username, password=password)
+            if user is None:
+                return Response('Usuario y/o Contraseña incorrecta')
+    except User.DoesNotExist:
+        return Response('Usuario y/o Contraseña incorrecta')
+
+    return Response('OK:' + str(user.id))
+
+@api_view(['GET'])
+def modificarPerfilV1(request, UsuId, PriNom, SegNom, Email):
+    try:
+        usuario = User.objects.get(pk=UsuId)
+
+        if PriNom != "null":
+            usuario.first_name = PriNom
+        if SegNom != "null":
+            usuario.last_name = SegNom
+        if Email != "null":  
+            usuario.email = Email
+
+        usuario.save()
+    except User.DoesNotExist:
+        return Response('Usuario no existe')
 
     return Response('OK')
