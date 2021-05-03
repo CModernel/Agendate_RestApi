@@ -514,6 +514,7 @@ def apiList(request):
         'verAgendaV2':'/verAgendaV2/<str:UsuId>',
         'verMiPerfilV1':'/verMiPerfilV1/<str:UsuId>',
         'crearSolicitudV1':'/crearSolicitudV1/<str:empresaSel>/<str:fechaSel>/<str:horaSel>/<str:usuId>',
+        'bajaSolicitudV1':'bajaSolicitudV1/<str:solicitudSel>/',
         }
     return Response(api_urls)
 
