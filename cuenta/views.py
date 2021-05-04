@@ -694,6 +694,11 @@ def registrarUsuarioV1(request, username, email, password, first_name, last_name
     except Exception as inst:
         return Response(inst)
     
+    if first_name == "null":  
+        first_name = ""
+
+    if last_name == "null":  
+        last_name = ""
 
     try:
         user = User.objects.create_user(username=username,
