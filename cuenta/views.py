@@ -633,7 +633,7 @@ def getEmpresaV1(request, empresaSel):
 
 @api_view(['GET'])
 def verAgendaV2(request, UsuId):
-    solicitudes = solicitud.objects.filter(UsuId=UsuId, FechaSolicitud__gte=datetime.date.today(), SolicitudActivo=True)
+    solicitudes = solicitud.objects.filter(UsuId=UsuId, FechaSolicitud__gte=datetime.date.today())
     serializer = verAgendaSerializer2(solicitudes, many=True)
     return Response(serializer.data)
 
